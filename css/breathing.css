@@ -1,0 +1,118 @@
+/* ============================================================
+   Espace Respiration — l'orbe guide (dilatation / contraction)
+   est la pièce héros du motion-design.
+   ============================================================ */
+
+.breathing { --accent: #6f6bb0; }
+.breathing .lead { margin: 12px 4px 2px; }
+
+/* Sélecteur d'exercices */
+.breath-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.breath-chip {
+  text-align: left; padding: 14px; border-radius: var(--r-lg);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: transform 220ms var(--ease-spring), border-color 240ms, background 240ms;
+}
+.breath-chip:active { transform: scale(0.97); }
+.breath-chip .em { font-size: 22px; }
+.breath-chip .nm { font-size: 15px; font-weight: 750; margin-top: 4px; }
+.breath-chip .tg { font-size: 11.5px; color: var(--ink-faint); margin-top: 3px; line-height: 1.35; }
+.breath-chip.on {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 26%, var(--glass)), var(--glass));
+}
+
+/* Scène de l'orbe */
+.breath-stage {
+  position: relative;
+  height: 340px;
+  margin: 18px 0 6px;
+  display: grid; place-items: center;
+}
+
+/* Halo ambiant qui respire en fond (indépendant, très lent) */
+.orb-aura {
+  position: absolute; width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent) 0%, transparent 62%);
+  filter: blur(8px);
+  animation: auraPulse 9s var(--ease-in-out) infinite;
+}
+@keyframes auraPulse { 0%,100% { opacity: 0.5; transform: scale(0.92);} 50% { opacity: 0.85; transform: scale(1.06);} }
+
+/* L'orbe qui se dilate / contracte (piloté en JS) */
+.orb-wrap {
+  position: relative; width: 190px; height: 190px;
+  transform: scale(0.95);
+  transition: transform 1s var(--ease-in-out);
+  will-change: transform;
+}
+.orb-core {
+  position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%,
+      color-mix(in srgb, var(--accent) 30%, #fff) 0%,
+      var(--accent) 46%,
+      color-mix(in srgb, var(--accent) 70%, #1a1330) 100%);
+  box-shadow:
+    0 0 60px 10px color-mix(in srgb, var(--accent) 50%, transparent),
+    inset 0 -14px 30px color-mix(in srgb, #1a1330 60%, transparent),
+    inset 0 10px 24px color-mix(in srgb, #fff 22%, transparent);
+}
+/* Reflet lumineux */
+.orb-core::after {
+  content: ""; position: absolute; left: 24%; top: 18%; width: 34%; height: 26%;
+  border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
+  filter: blur(2px);
+}
+/* Anneaux concentriques (profondeur) */
+.orb-ring { position: absolute; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); }
+.orb-ring.r1 { inset: -18px; opacity: 0.5; }
+.orb-ring.r2 { inset: -38px; opacity: 0.28; }
+
+/* Anneau de progression de la phase (ne change pas d'échelle) */
+.orb-progress { position: absolute; width: 250px; height: 250px; transform: rotate(-90deg); pointer-events: none; }
+.orb-progress .track { fill: none; stroke: rgba(255,250,242,0.10); stroke-width: 3; }
+.orb-progress .prog {
+  fill: none; stroke: color-mix(in srgb, var(--accent) 60%, #fff); stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+/* Texte au centre */
+.orb-center { position: absolute; text-align: center; pointer-events: none; }
+.orb-center .phase { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.orb-center .phase-sub { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+.orb-center .count { font-size: 12px; color: var(--ink-faint); margin-top: 10px; font-variant-numeric: tabular-nums; }
+
+/* Contrôles */
+.breath-controls { display: flex; align-items: center; gap: 12px; justify-content: center; margin-top: 6px; }
+.breath-start {
+  padding: 15px 34px; border-radius: var(--r-pill);
+  font-size: 16px; font-weight: 800; color: var(--ink-dark);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 40%, #fff), var(--accent));
+  box-shadow: 0 14px 30px -12px var(--accent);
+  transition: transform 200ms var(--ease-spring);
+}
+.breath-start:active { transform: scale(0.96); }
+.breath-reset {
+  padding: 13px 18px; border-radius: var(--r-pill);
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  font-size: 14px; font-weight: 650; color: var(--ink-soft);
+}
+
+.breath-meta { text-align: center; margin-top: 14px; }
+.breath-meta .when { font-size: 13px; color: var(--ink-soft); }
+.breath-meta .elapsed { font-size: 13px; color: var(--ink-faint); margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+/* Bandeau sécurité — discret mais présent */
+.breath-safety {
+  margin: 18px var(--pad) 0; padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  font-size: 12.5px; color: var(--ink-soft); line-height: 1.45;
+}
+.breath-safety b { color: var(--sand); }
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-aura { animation: none; }
+}

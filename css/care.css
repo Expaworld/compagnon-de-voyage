@@ -1,0 +1,83 @@
+/* ============================================================
+   Espace Soin — routines matin / soir + dents.
+   ============================================================ */
+
+.care .lead { margin: 14px 4px 2px; }
+
+/* Carte routine */
+.routine {
+  margin-top: 8px; padding: 18px 20px 20px;
+  position: relative; overflow: hidden;
+}
+.routine.matin {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--sunset-soft) 20%, var(--glass)), var(--glass));
+}
+.routine.soir {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--plum) 26%, var(--glass)), var(--glass));
+}
+.routine-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.routine-title { display: flex; align-items: center; gap: 10px; }
+.routine-title .em { font-size: 24px; }
+.routine-title h2 { margin: 0; font-size: 20px; font-weight: 800; }
+.routine-state { font-size: 12px; font-weight: 700; color: var(--ink-faint); }
+.routine.is-complete .routine-state { color: var(--done); }
+
+/* Timeline d'étapes */
+.steps { margin-top: 14px; position: relative; }
+.step {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 0; position: relative;
+}
+.step + .step { border-top: 1px solid var(--glass-border); }
+.step-num {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; position: relative; z-index: 1;
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  font-size: 13px; font-weight: 800; color: var(--ink-soft);
+  transition: background 300ms var(--ease-out), color 300ms, border-color 300ms;
+}
+.step.is-done .step-num { background: var(--done); border-color: var(--done); color: var(--ink-dark); }
+.step-num .num-check { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 240ms; }
+.step-num .num-check svg { width: 16px; height: 16px; stroke: var(--ink-dark); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.step.is-done .num-check { opacity: 1; }
+.step.is-done .num-label { opacity: 0; }
+
+.step-body { flex: 1 1 auto; min-width: 0; }
+.step-label { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.step-label .ic { display: inline-flex; color: var(--sand); }
+.step-label .ic svg { width: 18px; height: 18px; }
+.step-sub { font-size: 12.5px; color: var(--ink-faint); margin-top: 3px; line-height: 1.4; }
+.step.is-done .step-label { color: color-mix(in srgb, var(--done) 75%, var(--ink)); }
+
+.step-tick {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--ink-faint); display: grid; place-items: center;
+  transition: border-color 260ms, background 260ms;
+}
+.step.is-done .step-tick { border-color: var(--done); background: var(--done); }
+.step-tick svg { width: 15px; height: 15px; stroke: var(--ink-dark); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset 340ms var(--ease-out) 60ms; }
+.step.is-done .step-tick svg { stroke-dashoffset: 0; }
+
+/* Dents */
+.teeth-card { margin-top: 8px; padding: 18px 20px; }
+.teeth-head { display: flex; align-items: center; justify-content: space-between; }
+.teeth-head h2 { margin: 0; font-size: 19px; font-weight: 800; }
+.teeth-head .goal { font-size: 12.5px; color: var(--ink-faint); }
+.teeth-pips { display: flex; gap: 10px; margin: 16px 0; }
+.pip {
+  flex: 1 1 0; height: 52px; border-radius: var(--r-md);
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  display: grid; place-items: center; font-size: 24px;
+  filter: grayscale(1) opacity(0.4);
+  transition: filter 360ms var(--ease-out), transform 360ms var(--ease-spring), background 360ms;
+}
+.pip.on { filter: none; background: color-mix(in srgb, var(--cactus) 18%, var(--glass-light)); transform: translateY(-2px); }
+.teeth-btns { display: flex; gap: 8px; }
+.teeth-btns .chip { font-size: 15px; }
+
+.care-note {
+  margin: 18px var(--pad) 0; font-size: 12.5px; color: var(--ink-faint);
+  line-height: 1.5; text-align: center;
+}
+.care-note b { color: var(--ink-soft); font-weight: 700; }

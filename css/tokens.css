@@ -1,0 +1,84 @@
+/* ============================================================
+   Compagnon de voyage — Design tokens
+   Palette sud-américaine chaude, profondeur en couches.
+   Les couleurs du ciel sont pilotées dynamiquement (sky.js)
+   via --sky-* ; ici on pose les constantes de marque.
+   ============================================================ */
+
+:root {
+  /* --- Palette de marque (constante) --- */
+  --terracotta:   #c75b39;
+  --terracotta-2: #e0794a;
+  --sunset:       #f2933f;
+  --sunset-soft:  #f4b16a;
+  --sand:         #f0e3d0;
+  --sand-deep:    #d9c3a3;
+  --indigo:       #241a45;
+  --indigo-2:     #3a2a63;
+  --plum:         #7d4b9e;
+  --cactus:       #5e8d6e;
+  --cactus-deep:  #3f6b52;
+  --altiplano:    #8fae8b;
+
+  /* --- Surfaces (verre dépoli posé sur le ciel) --- */
+  --glass:        rgba(28, 20, 48, 0.42);
+  --glass-strong: rgba(24, 17, 42, 0.62);
+  --glass-light:  rgba(255, 250, 242, 0.10);
+  --glass-border: rgba(255, 250, 242, 0.16);
+  --card-shadow:  0 18px 40px -18px rgba(13, 8, 28, 0.65);
+
+  /* --- Texte --- */
+  --ink:        #fdf6ec;
+  --ink-soft:   rgba(253, 246, 236, 0.74);
+  --ink-faint:  rgba(253, 246, 236, 0.50);
+  --ink-dark:   #2a1f3d;
+
+  /* --- États doux (jamais d'alarme rouge punitive) --- */
+  --done:       #8fd6a8;   /* vert tendre de validation */
+  --done-glow:  rgba(143, 214, 168, 0.55);
+  --gentle:     #f4b16a;   /* relance chaleureuse, pas un avertissement */
+
+  /* --- Rayons & espacements --- */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+  --r-pill: 999px;
+
+  --gap: 16px;
+  --pad: 18px;
+
+  /* --- Typo --- */
+  --font: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+
+  /* --- Courbes d'animation (vrai motion-design, pas du linéaire) --- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);       /* arrivée douce */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* léger rebond */
+  --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);      /* glisse premium */
+
+  /* --- Profondeur (z) --- */
+  --z-sky: 0;
+  --z-parallax: 1;
+  --z-grain: 2;
+  --z-content: 10;
+  --z-nav: 50;
+  --z-sheet: 100;
+  --z-toast: 200;
+
+  /* --- Valeurs de ciel par défaut (écrasées par sky.js) --- */
+  --sky-top: #2a2150;
+  --sky-mid: #6b4a86;
+  --sky-low: #e0794a;
+  --sky-haze: rgba(244, 177, 106, 0.0);
+  --sun-x: 50%;
+  --sun-y: 70%;
+  --sun-color: #fff3da;
+  --sun-glow: rgba(246, 168, 80, 0.55);
+  --star-opacity: 0;
+  --silhouette: #1c1430;
+  --ambient: rgba(255, 240, 220, 0.04);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}

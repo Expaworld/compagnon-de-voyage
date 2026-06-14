@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#1a1330" />
+  <title>Compagnon de voyage</title>
+
+  <!-- PWA / iOS plein écran -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Compagnon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon-180.png" />
+  <link rel="icon" href="./assets/icons/icon.svg" type="image/svg+xml" />
+  <link rel="icon" sizes="192x192" href="./assets/icons/icon-192.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/sky.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/today.css" />
+  <link rel="stylesheet" href="./css/travel.css" />
+  <link rel="stylesheet" href="./css/meals.css" />
+  <link rel="stylesheet" href="./css/sport.css" />
+  <link rel="stylesheet" href="./css/care.css" />
+  <link rel="stylesheet" href="./css/breathing.css" />
+  <link rel="stylesheet" href="./css/medhub.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Ciel dynamique (arrière-plan global, piloté par sky.js) -->
+    <div id="sky" aria-hidden="true">
+      <div class="sky-gradient"></div>
+      <canvas id="stars"></canvas>
+      <div class="sky-clouds"></div>
+      <div class="sky-sun"></div>
+      <div class="sky-haze"></div>
+
+      <!-- Reliefs lointains : silhouette d'Andes / altiplano (parallaxe) -->
+      <div class="sky-range sky-range--far">
+        <svg viewBox="0 0 1200 220" preserveAspectRatio="none">
+          <path fill="currentColor" d="M0 220 L0 150
+            L90 110 L170 150 L250 90 L340 140 L430 70 L520 130
+            L610 60 L700 120 L800 80 L900 140 L1000 95 L1100 145 L1200 110
+            L1200 220 Z"/>
+        </svg>
+      </div>
+      <div class="sky-range sky-range--near">
+        <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+          <path fill="currentColor" d="M0 200 L0 170
+            L120 120 L210 165 L300 110 L410 160 L520 95 L640 155
+            L760 120 L880 165 L1000 115 L1120 160 L1200 130
+            L1200 200 Z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Grain subtil par-dessus le ciel -->
+    <div id="grain" aria-hidden="true"></div>
+
+    <!-- Écran actif (rendu par le routeur) -->
+    <main id="screen"></main>
+
+    <!-- Navigation des espaces -->
+    <nav id="nav" aria-label="Espaces"></nav>
+
+    <!-- Toasts bienveillants -->
+    <div id="toast-host" aria-live="polite"></div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

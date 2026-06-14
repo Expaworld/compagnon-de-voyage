@@ -1,0 +1,219 @@
+/* ============================================================
+   Espace Sport — figures animées, 100 pompes, séance du jour.
+   ============================================================ */
+
+/* ---------- Figure (silhouette) ---------- */
+.fig { width: 100%; height: 100%; display: block; }
+.fig .limb, .fig .spine, .fig .foot {
+  stroke: var(--sand); fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+.fig .limb { stroke-width: 9; }
+.fig .spine { stroke-width: 12; }
+.fig .foot { stroke-width: 9; }
+.fig .head { fill: var(--sand); }
+.fig .hand { fill: var(--sunset-soft); }
+.fig .faint { opacity: 0.26; }
+.fig .ground { stroke: rgba(255,250,242,0.16); stroke-width: 3; stroke-linecap: round; }
+.fig .band { stroke: var(--terracotta-2); stroke-width: 4.5; fill: none;
+  stroke-linecap: round; stroke-dasharray: 2 8; animation: bandPulse 2.2s var(--ease-in-out) infinite; }
+.fig .band-anchor { stroke: rgba(255,250,242,0.28); stroke-width: 4; stroke-linecap: round; }
+@keyframes bandPulse { 50% { stroke-dashoffset: 10; opacity: 0.7; } }
+
+/* Origines de pivot (pose initiale droite -> sommet du segment) */
+.fig .torso { transform-box: fill-box; transform-origin: 50% 100%; }
+.fig .arm,
+.fig .fore,
+.fig .legf,
+.fig .lower { transform-box: fill-box; transform-origin: 50% 0%; }
+.fig .body, .fig .floorbody, .fig .arm-floor,
+.fig .hips, .fig .legs-up { transform-box: fill-box; }
+
+.fig [class] { animation-duration: 2.4s; animation-timing-function: var(--ease-in-out);
+  animation-iteration-count: infinite; animation-direction: alternate; }
+
+/* squat */
+.fig--squat .body   { animation-name: sqDown; }
+.fig--squat .legf   { animation-name: sqThigh; }
+.fig--squat .lower  { animation-name: sqShin; }
+.fig--squat .torso  { animation-name: sqLean; }
+.fig--squat .arm    { animation-name: sqArm; }
+@keyframes sqDown  { to { transform: translateY(20px); } }
+@keyframes sqThigh { to { transform: rotate(16deg); } }
+@keyframes sqShin  { to { transform: rotate(-22deg); } }
+@keyframes sqLean  { to { transform: rotate(8deg); } }
+@keyframes sqArm   { to { transform: rotate(-72deg); } }
+
+/* lunge (fente) */
+.fig--lunge .body  { animation-name: sqDown; }
+.fig--lunge .legf  { animation-name: lgThigh; }
+.fig--lunge .lower { animation-name: lgShin; }
+.fig--lunge .arm   { animation-name: lgArm; }
+@keyframes lgThigh { to { transform: rotate(22deg); } }
+@keyframes lgShin  { to { transform: rotate(-34deg); } }
+@keyframes lgArm   { to { transform: rotate(-10deg); } }
+
+/* calf raise (mollets) */
+.fig--calfRaise .body { animation-name: calfUp; animation-duration: 1.6s; }
+@keyframes calfUp { to { transform: translateY(-12px); } }
+
+/* curl biceps */
+.fig--curl .fore { animation-name: curlUp; animation-duration: 1.9s; }
+@keyframes curlUp { to { transform: rotate(-128deg); } }
+
+/* extension triceps (pushdown) */
+.fig--triceps .fore { animation-name: triExt; animation-duration: 1.9s; }
+@keyframes triExt { from { transform: rotate(-105deg); } to { transform: rotate(0deg); } }
+
+/* développé poitrine (bande) */
+.fig--bandPress .arm  { transform: rotate(-88deg); }
+.fig--bandPress .fore { animation-name: pressFwd; }
+@keyframes pressFwd { from { transform: rotate(-96deg); } to { transform: rotate(0deg); } }
+
+/* développé épaules (overhead) */
+.fig--overhead .arm  { animation-name: ovArm; }
+.fig--overhead .fore { animation-name: ovFore; }
+@keyframes ovArm  { from { transform: rotate(-118deg); } to { transform: rotate(-168deg); } }
+@keyframes ovFore { from { transform: rotate(-44deg); } to { transform: rotate(0deg); } }
+
+/* rowing (tirage horizontal) */
+.fig--row .arm  { transform: rotate(-90deg); }
+.fig--row .fore { animation-name: rowPull; }
+@keyframes rowPull { from { transform: rotate(2deg); } to { transform: rotate(-76deg); } }
+
+/* tirage vertical (pulldown) */
+.fig--pulldown .arm  { animation-name: pdArm; }
+.fig--pulldown .fore { animation-name: pdFore; }
+@keyframes pdArm  { from { transform: rotate(-168deg); } to { transform: rotate(-112deg); } }
+@keyframes pdFore { from { transform: rotate(0deg); } to { transform: rotate(-46deg); } }
+
+/* face pull */
+.fig--facePull .arm  { animation-name: fpArm; }
+.fig--facePull .fore { animation-name: fpFore; }
+@keyframes fpArm  { from { transform: rotate(-92deg); } to { transform: rotate(-72deg); } }
+@keyframes fpFore { from { transform: rotate(-8deg); } to { transform: rotate(-82deg); } }
+
+/* hip abduction */
+.fig--hipAbduction .legf { animation-name: abdLeg; animation-duration: 2s; }
+@keyframes abdLeg { to { transform: rotate(24deg); } }
+
+/* pompes (sol) */
+.fig--pushup .floorbody { animation-name: puDip; animation-duration: 2s; }
+@keyframes puDip { to { transform: translateY(15px); } }
+
+/* planche (isométrique, micro-respiration) */
+.fig--plank .floorbody { animation-name: plkHold; animation-duration: 3.4s; }
+@keyframes plkHold { to { transform: translateY(2.5px); } }
+
+/* relevés de jambes */
+.fig--legRaise .legs-up { transform-box: fill-box; transform-origin: 0% 50%; animation-name: lrLift; animation-duration: 2.2s; }
+@keyframes lrLift { from { transform: rotate(0deg); } to { transform: rotate(-72deg); } }
+
+/* hip thrust */
+.fig--hipThrust .hips { transform-origin: 0% 50%; animation-name: htUp; animation-duration: 2s; }
+@keyframes htUp { from { transform: rotate(8deg) translateY(6px); } to { transform: rotate(-6deg) translateY(-4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fig [class] { animation: none !important; }
+}
+
+/* ---------- En-tête ---------- */
+.sport .lead { margin: 14px 4px 2px; }
+
+/* ---------- 100 pompes (héros) ---------- */
+.pushup-hero {
+  margin-top: 8px; padding: 20px;
+  display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center;
+  position: relative; overflow: hidden;
+}
+.pushup-fig { width: 96px; height: 96px; border-radius: var(--r-md);
+  background: var(--glass-light); display: grid; place-items: center; }
+.pushup-main { min-width: 0; }
+.pushup-title { font-size: 17px; font-weight: 800; }
+.pushup-title small { font-weight: 600; color: var(--ink-faint); font-size: 12px; display: block; margin-top: 2px; letter-spacing: 0.02em; }
+.pushup-count { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 8px; }
+.pushup-count b { color: var(--sunset-soft); }
+.pushup-count.done b { color: var(--done); }
+.pushup-bar { height: 12px; border-radius: var(--r-pill); background: var(--glass-light); overflow: hidden; margin-top: 8px; position: relative; }
+.pushup-bar > span { position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--fill,0));
+  background: linear-gradient(90deg, var(--sunset-soft), var(--terracotta-2)); border-radius: inherit;
+  transition: transform 620ms var(--ease-out); }
+.pushup-hero.done .pushup-bar > span { background: linear-gradient(90deg, var(--done), var(--cactus)); }
+.pushup-btns { display: flex; gap: 8px; margin-top: 14px; grid-column: 1 / -1; }
+.pushup-btns .chip { font-size: 15px; }
+
+/* éclat de victoire 100 pompes */
+.pushup-hero.burst::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(40% 60% at 24% 50%, var(--done-glow), transparent 70%);
+  animation: puBurst 1200ms var(--ease-out);
+}
+@keyframes puBurst { 0% { opacity: 0; transform: scale(0.7);} 30%{opacity:1;} 100% { opacity: 0; transform: scale(1.5);} }
+
+/* ---------- Séance du jour ---------- */
+.session-card { margin-top: 6px; padding: 20px; }
+.session-kicker { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sunset-soft); font-weight: 800; }
+.session-name { font-size: 23px; font-weight: 800; margin: 4px 0 2px; letter-spacing: -0.01em; }
+.session-sub { font-size: 13.5px; color: var(--ink-soft); }
+.session-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+.seg {
+  display: inline-flex; background: var(--glass-light); border: 1px solid var(--glass-border);
+  border-radius: var(--r-pill); padding: 3px; gap: 2px;
+}
+.seg button {
+  padding: 7px 13px; border-radius: var(--r-pill); font-size: 13px; font-weight: 700;
+  color: var(--ink-faint); transition: color 220ms, background 220ms;
+}
+.seg button.on { color: var(--ink-dark); background: var(--sand); }
+
+.toggle-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: var(--r-pill);
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  font-size: 13px; font-weight: 650; color: var(--ink-soft);
+}
+.toggle-pill.on { color: var(--ink); border-color: color-mix(in srgb, var(--cactus) 55%, transparent); }
+.toggle-pill .sw { width: 30px; height: 18px; border-radius: var(--r-pill); background: rgba(255,255,255,0.18); position: relative; transition: background 220ms; }
+.toggle-pill.on .sw { background: var(--cactus); }
+.toggle-pill .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); transition: transform 220ms var(--ease-spring); }
+.toggle-pill.on .sw::after { transform: translateX(12px); }
+
+/* Liste d'exercices */
+.ex-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.ex-card {
+  display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center;
+  padding: 14px; border-radius: var(--r-lg);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--card-shadow);
+}
+.ex-stage { width: 84px; height: 84px; border-radius: var(--r-md); background:
+  radial-gradient(120% 100% at 50% 0%, color-mix(in srgb, var(--plum) 26%, transparent), transparent 70%), var(--glass-light);
+  overflow: hidden; }
+.ex-name { font-size: 16px; font-weight: 750; }
+.ex-name .band-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--terracotta-2); margin-left: 7px; }
+.ex-dose { font-size: 13px; color: var(--ink-soft); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.ex-cue { font-size: 12.5px; color: var(--ink-faint); margin-top: 5px; line-height: 1.35; }
+.ex-tip { font-size: 12px; color: var(--sunset-soft); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+.ex-tip svg { width: 14px; height: 14px; flex: 0 0 auto; }
+
+.session-cta {
+  width: 100%; margin-top: 18px; padding: 16px; border-radius: var(--r-lg);
+  font-size: 16px; font-weight: 800; color: var(--ink-dark);
+  background: linear-gradient(120deg, var(--sunset-soft), var(--terracotta-2));
+  box-shadow: 0 14px 30px -12px var(--terracotta);
+  transition: transform 220ms var(--ease-spring), filter 220ms;
+}
+.session-cta:active { transform: scale(0.98); }
+.session-cta.is-done { background: linear-gradient(120deg, var(--done), var(--cactus)); }
+
+.move-note { margin: 14px var(--pad) 0; font-size: 13px; color: var(--ink-faint); line-height: 1.5; text-align: center; }
+.activity-row { display: flex; gap: 10px; margin-top: 12px; }
+.activity-chip {
+  flex: 1 1 0; padding: 13px; border-radius: var(--r-md); text-align: center;
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+  font-size: 13.5px; font-weight: 650;
+}
+.activity-chip.on { border-color: var(--done-glow); color: var(--done); }
+.activity-chip .em { font-size: 20px; display: block; margin-bottom: 4px; }

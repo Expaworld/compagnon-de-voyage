@@ -1,0 +1,124 @@
+/* ============================================================
+   Ciel — couches empilées + transitions douces des couleurs.
+   On enregistre les variables de couleur en @property pour
+   qu'elles s'animent (sinon un changement de var est instantané).
+   ============================================================ */
+
+@property --sky-top { syntax: "<color>"; inherits: true; initial-value: #2a2150; }
+@property --sky-mid { syntax: "<color>"; inherits: true; initial-value: #6b4a86; }
+@property --sky-low { syntax: "<color>"; inherits: true; initial-value: #e0794a; }
+@property --sun-color { syntax: "<color>"; inherits: true; initial-value: #fff3da; }
+@property --silhouette { syntax: "<color>"; inherits: true; initial-value: #1c1430; }
+
+/* Les vars de couleur glissent en ~6s -> transitions de ciel fluides */
+:root {
+  transition:
+    --sky-top 6s var(--ease-in-out),
+    --sky-mid 6s var(--ease-in-out),
+    --sky-low 6s var(--ease-in-out),
+    --sun-color 6s var(--ease-in-out),
+    --silhouette 6s var(--ease-in-out);
+}
+/* Au tout premier rendu, on pose les bonnes couleurs sans glissement
+   (sinon on verrait un fondu depuis les valeurs par défaut). */
+:root.sky-instant { transition: none; }
+
+#sky { overflow: hidden; }
+
+.sky-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at var(--sun-x) calc(var(--sun-y) + 6%),
+      var(--sun-glow) 0%, transparent 46%),
+    linear-gradient(to bottom,
+      var(--sky-top) 0%,
+      var(--sky-mid) 46%,
+      var(--sky-low) 100%);
+}
+
+/* Halo d'horizon, renforce la profondeur atmosphérique */
+.sky-haze {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 46%;
+  background: linear-gradient(to top, var(--sky-low), transparent);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+/* Étoiles */
+#stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* L'astre (soleil / lune) */
+.sky-sun {
+  position: absolute;
+  top: var(--sun-y);
+  left: var(--sun-x);
+  width: 92px;
+  height: 92px;
+  margin: -46px 0 0 -46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%,
+    color-mix(in srgb, var(--sun-color) 100%, white 18%) 0%,
+    var(--sun-color) 52%,
+    color-mix(in srgb, var(--sun-color) 70%, transparent) 78%,
+    transparent 100%);
+  box-shadow:
+    0 0 60px 20px var(--sun-glow),
+    0 0 140px 60px var(--sun-glow);
+  transition: top 6s var(--ease-in-out), left 6s var(--ease-in-out),
+              width 1.2s var(--ease-out), height 1.2s var(--ease-out);
+  will-change: top, left;
+}
+/* La lune : plus petite, froide, avec un léger croissant */
+:root.is-night .sky-sun {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  box-shadow: 0 0 40px 8px var(--sun-glow), 0 0 90px 30px var(--sun-glow);
+}
+:root.is-night .sky-sun::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--sky-mid);
+  transform: translate(26%, -22%) scale(0.92);
+  opacity: 0.92;
+}
+
+/* Reliefs lointains (parallaxe douce, ancrés en bas du ciel) */
+.sky-range {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: -2px;
+  width: 110%;
+  color: var(--silhouette);
+}
+.sky-range svg { display: block; width: 100%; height: auto; }
+.sky-range--far  { opacity: 0.55; bottom: 8%; filter: blur(0.4px); }
+.sky-range--near { opacity: 1; }
+
+/* Nuages diffus très légers, dérive lente */
+.sky-clouds {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 18% at 20% 32%, rgba(255,255,255,0.05), transparent 70%),
+    radial-gradient(34% 14% at 72% 24%, rgba(255,255,255,0.04), transparent 70%),
+    radial-gradient(30% 12% at 48% 40%, rgba(255,255,255,0.035), transparent 70%);
+  animation: cloudDrift 120s linear infinite alternate;
+  pointer-events: none;
+}
+@keyframes cloudDrift {
+  from { transform: translateX(-3%); }
+  to   { transform: translateX(3%); }
+}

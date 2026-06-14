@@ -1,0 +1,162 @@
+/* ============================================================
+   Écran Aujourd'hui — scène héros de l'avion + repères du jour.
+   ============================================================ */
+
+.today-hero { padding: 10px var(--pad) 0; }
+
+.hero-greet {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 12px; margin: 8px 2px 2px;
+}
+.hero-greet .date { font-size: 13px; color: var(--ink-faint); font-weight: 650; text-transform: capitalize; }
+
+/* --- Scène de l'avion --- */
+.plane-scene {
+  position: relative;
+  height: 230px;
+  margin: 14px 0 4px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--sky-mid) 50%, transparent),
+      color-mix(in srgb, var(--sky-low) 40%, transparent));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  --altitude: 0px;
+}
+.plane-scene::after { /* léger vignettage premium */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 120%, transparent 50%, rgba(13,8,28,0.35));
+}
+
+/* Piste en perspective */
+.runway {
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: 320%; height: 46%;
+  transform: translateX(-50%) perspective(360px) rotateX(58deg);
+  transform-origin: bottom center;
+  background:
+    linear-gradient(to top, color-mix(in srgb, var(--silhouette) 75%, #000) 0%, color-mix(in srgb, var(--silhouette) 40%, transparent) 100%);
+  border-top: 2px solid color-mix(in srgb, var(--sand) 30%, transparent);
+}
+.runway-line {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 8px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(to top,
+    color-mix(in srgb, var(--sand) 70%, transparent) 0 26px,
+    transparent 26px 56px);
+  opacity: 0.7;
+}
+.runway-edge {
+  position: absolute; top: 0; bottom: 0; width: 3px;
+  background: color-mix(in srgb, var(--sand) 40%, transparent);
+}
+.runway-edge.left { left: 14%; } .runway-edge.right { right: 14%; }
+
+/* Avion */
+.plane-wrap {
+  position: absolute;
+  left: 6%; bottom: 38%;
+  width: 132px;
+  z-index: 3;
+  transform: translateX(0) translateY(0) rotate(0deg);
+  transition: transform 900ms var(--ease-glide);
+  will-change: transform;
+}
+.plane-svg { width: 100%; height: auto; filter: drop-shadow(0 10px 16px rgba(13,8,28,0.4)); }
+
+.plane-shadow {
+  position: absolute; left: 8%; right: 8%; bottom: -34px; height: 16px;
+  background: radial-gradient(50% 100% at 50% 50%, rgba(13,8,28,0.5), transparent 70%);
+  filter: blur(2px);
+  transition: opacity 900ms var(--ease-glide), transform 900ms var(--ease-glide);
+}
+.is-airborne .plane-shadow { opacity: 0; transform: scale(0.6); }
+
+/* Lignes de vitesse */
+.speed-lines {
+  position: absolute; left: 0; right: 0; top: 34%; height: 40%;
+  z-index: 2; opacity: 0; pointer-events: none;
+  --speed: 0.6;
+  transition: opacity 500ms var(--ease-out);
+}
+.speed-lines span {
+  position: absolute; height: 2px; border-radius: 2px;
+  right: 12%;
+  background: linear-gradient(to left, color-mix(in srgb, var(--sand) 70%, transparent), transparent);
+  animation: streak calc(1100ms / var(--speed)) linear infinite;
+}
+.speed-lines span:nth-child(1) { top: 16%; width: 40%; animation-delay: 0ms; }
+.speed-lines span:nth-child(2) { top: 34%; width: 56%; animation-delay: 140ms; }
+.speed-lines span:nth-child(3) { top: 52%; width: 34%; animation-delay: 280ms; }
+.speed-lines span:nth-child(4) { top: 68%; width: 50%; animation-delay: 80ms; }
+.speed-lines span:nth-child(5) { top: 84%; width: 30%; animation-delay: 220ms; }
+@keyframes streak {
+  from { transform: translateX(40%); opacity: 0; }
+  20%  { opacity: 1; }
+  to   { transform: translateX(-220%); opacity: 0; }
+}
+
+/* Nuages de bonus (altitude) */
+.plane-sky-bonus { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.bonus-cloud {
+  position: absolute;
+  background: radial-gradient(60% 80% at 50% 50%, rgba(255,250,242,0.5), rgba(255,250,242,0) 70%);
+  border-radius: 50%;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 1200ms var(--ease-out), transform 1200ms var(--ease-glide);
+}
+.bonus-cloud.c1 { width: 120px; height: 50px; left: 12%; top: 18%; }
+.bonus-cloud.c2 { width: 90px;  height: 40px; right: 14%; top: 30%; }
+.bonus-cloud.c3 { width: 150px; height: 56px; left: 30%; top: 8%; }
+.is-airborne[data-bonus^="0.3"] .bonus-cloud,
+.is-airborne[data-bonus^="0.4"] .bonus-cloud,
+.is-airborne[data-bonus^="0.5"] .bonus-cloud,
+.is-airborne[data-bonus^="0.6"] .bonus-cloud,
+.is-airborne[data-bonus^="0.7"] .bonus-cloud,
+.is-airborne[data-bonus^="0.8"] .bonus-cloud,
+.is-airborne[data-bonus^="0.9"] .bonus-cloud,
+.is-airborne[data-bonus="1.00"] .bonus-cloud { opacity: 0.8; transform: translateY(0); }
+
+/* Halo de décollage (célébration ponctuelle) */
+.takeoff-burst::before {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: radial-gradient(40% 40% at 64% 40%, var(--sun-glow), transparent 70%);
+  animation: burst 1100ms var(--ease-out) both;
+}
+@keyframes burst {
+  0% { opacity: 0; transform: scale(0.6); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* Légende d'état de l'avion (texte d'ambiance, jamais un score) */
+.plane-status {
+  position: absolute; left: 16px; bottom: 14px; z-index: 5;
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  text-shadow: 0 2px 8px rgba(13,8,28,0.6);
+  display: flex; align-items: center; gap: 8px;
+}
+.plane-status .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--sunset-soft); box-shadow: 0 0 12px var(--sunset-soft);
+  animation: pulse 2.4s var(--ease-in-out) infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 0.5; transform: scale(0.85);} 50% { opacity: 1; transform: scale(1.15);} }
+
+/* Ancre du jour (vision claire / micro-rituel) */
+.anchor-vision {
+  margin: 14px var(--pad) 0; padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--plum) 26%, var(--glass)), var(--glass));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.anchor-vision .label { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sunset-soft); font-weight: 800; }
+.anchor-vision .vision-input {
+  width: 100%; margin-top: 8px; background: transparent; border: 0;
+  font-size: 17px; font-weight: 650; color: var(--ink); outline: none;
+}
+.anchor-vision .vision-input::placeholder { color: var(--ink-faint); }

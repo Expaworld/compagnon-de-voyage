@@ -1,0 +1,105 @@
+/* ============================================================
+   Espace Repas & eau
+   ============================================================ */
+
+/* Bouton retour (chevron vers la gauche) */
+.city.back { gap: 4px; padding-left: 10px; }
+.back-chev { display: inline-flex; }
+.back-chev svg { width: 18px; height: 18px; transform: rotate(180deg); }
+
+/* --- Gourde --- */
+.water-card {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 18px;
+  padding: 18px 20px; margin-top: 6px;
+}
+.bottle { flex: 0 0 96px; width: 96px; }
+.bottle-svg { width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 10px 18px rgba(13,8,28,0.4)); }
+
+.liquid-wrap {
+  transform: translateY(var(--fillY, 154px));
+  transition: transform 760ms var(--ease-glide);
+  will-change: transform;
+}
+.wave { transform-box: fill-box; }
+.w2 { opacity: 0.5; animation: waveX 5.5s ease-in-out infinite alternate; transform-origin: center; }
+@keyframes waveX { from { transform: translateX(-9px); } to { transform: translateX(9px); } }
+
+.water-info { flex: 1 1 auto; min-width: 0; }
+.water-liters {
+  font-size: 30px; font-weight: 800; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.water-sub { font-size: 13px; color: var(--ink-faint); margin-top: 2px; }
+.water-card.is-full .water-liters { color: var(--done); }
+
+.water-btns { display: flex; gap: 8px; margin-top: 4px; flex-basis: 100%; width: 100%; }
+.water-btns .chip { font-size: 14.5px; padding: 11px 0; }
+
+.safe-water {
+  margin: 14px var(--pad) 0; padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--glass-light);
+  border: 1px solid var(--glass-border);
+  font-size: 13px; color: var(--ink-soft); line-height: 1.45;
+}
+.safe-water b { color: var(--sand); }
+
+/* --- Repas --- */
+.meal-list { display: flex; flex-direction: column; gap: 10px; }
+.meal-card {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--card-shadow);
+  transition: transform 220ms var(--ease-spring), background 320ms, border-color 320ms;
+}
+.meal-card:active { transform: scale(0.985); }
+.meal-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.meal-emoji { font-size: 28px; }
+.meal-label { font-size: 17px; font-weight: 700; }
+.meal-status { font-size: 12.5px; color: var(--ink-faint); margin-top: 3px; }
+
+/* Statut de relance : couleur DOUCE, jamais une alarme */
+.meal-card[data-status="due"] { border-color: color-mix(in srgb, var(--gentle) 45%, transparent); }
+.meal-card[data-status="due"] .meal-status { color: var(--sunset-soft); }
+.meal-card.is-done {
+  background: linear-gradient(120deg, color-mix(in srgb, var(--done) 16%, var(--glass)), var(--glass));
+  border-color: var(--done-glow);
+}
+.meal-card.is-done .meal-status { color: color-mix(in srgb, var(--done) 65%, var(--ink-faint)); }
+.meal-card .tick { width: 32px; height: 32px; }
+.meal-card.is-done .tick { border-color: var(--done); background: var(--done); }
+
+/* --- Idées repas (filet de sécurité) --- */
+.ideas { }
+.ideas-toggle {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px; border-radius: var(--r-lg);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  font-size: 15.5px; font-weight: 650; color: var(--ink);
+}
+.ideas-toggle .chev { display: inline-flex; transition: transform 320ms var(--ease-out); color: var(--ink-faint); }
+.ideas-toggle .chev svg { width: 20px; height: 20px; transform: rotate(90deg); }
+.ideas.open .ideas-toggle .chev { transform: rotate(180deg); }
+
+.ideas-body {
+  display: flex; flex-direction: column; gap: 10px;
+  max-height: 0; opacity: 0; overflow: hidden;
+  transition: max-height 460ms var(--ease-glide), opacity 320ms ease, margin 320ms;
+}
+.ideas.open .ideas-body { max-height: 1200px; opacity: 1; margin-top: 10px; }
+
+.idea-card {
+  padding: 14px 16px; border-radius: var(--r-md);
+  background: var(--glass-light); border: 1px solid var(--glass-border);
+}
+.idea-head { display: flex; align-items: center; gap: 10px; }
+.idea-emoji { font-size: 22px; }
+.idea-name { font-size: 16px; font-weight: 750; }
+.idea-items { font-size: 13.5px; color: var(--ink-soft); margin-top: 6px; }
+.idea-note { font-size: 12.5px; color: var(--ink-faint); margin-top: 4px; font-style: italic; }
