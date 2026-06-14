@@ -3,9 +3,9 @@
    que chacun ait une vraie animation), séances en rotation, et
    formats complet / express.
 
-   100% faisable au poids du corps ; les variantes bande sont un
-   bonus. Cadre : énergie, confiance, anti-stress — jamais
-   "corriger un défaut". Progression suggérée tout en douceur.
+   100% faisable au poids du corps ; les variantes bande sont en
+   option. Cadre : énergie, confiance, anti-stress. Progression
+   suggérée par petites touches.
    ============================================================ */
 
 export const EXERCISES = {

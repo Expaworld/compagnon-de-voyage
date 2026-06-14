@@ -119,8 +119,8 @@ function buildTodayList(ctx, offset) {
     const diff = appliedMin - nowMin;
     let status = "À venir", cls = "";
     if (taken) { status = "Pris ✓"; }
-    else if (Math.abs(diff) <= 30) { status = "C'est le moment, si ça correspond."; cls = "now"; }
-    else if (diff < 0) { status = "Plus tôt aujourd'hui — coche quand c'est fait."; }
+    else if (Math.abs(diff) <= 30) { status = "C'est l'heure."; cls = "now"; }
+    else if (diff < 0) { status = "Plus tôt aujourd'hui."; }
 
     const row = el("div", { class: "intake " + cls + (taken ? " is-taken" : "") });
     row.append(

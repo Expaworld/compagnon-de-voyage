@@ -5,7 +5,7 @@
    Principes :
    - `essential: true`  → fait partie de l'essentiel santé.
      Quand TOUS les essentiels sont faits, l'avion décolle.
-   - `essential: false` → bonus = altitude gagnée, sans pression.
+   - `essential: false` → extra ; fait gagner de l'altitude.
    - `type: 'check'`    → simple coche.
    - `type: 'counter'`  → objectif chiffré atteint en plusieurs
      fois (eau, pompes, dents). Considéré "fait" à `target`.
@@ -59,13 +59,13 @@ export const ANCHORS = [
   },
   {
     id: "workout", group: "journee", type: "check", essential: false,
-    label: "Séance du jour", hint: "Ou marche, ou repos — ça compte aussi.",
+    label: "Séance du jour", hint: "Séance, marche ou repos.",
     icon: "dumbbell", space: "sport"
   },
   {
     id: "teeth", group: "journee", type: "counter", essential: false,
     target: 3, unit: "brossage", step: 1,
-    label: "Dents", hint: "Objectif 3 fois, sans te presser.",
+    label: "Dents", hint: "Objectif 3 fois.",
     icon: "tooth", space: "care"
   },
   {
@@ -97,7 +97,7 @@ export const ANCHORS = [
   },
   {
     id: "sleep", group: "soir", type: "check", essential: true,
-    label: "Nuit correcte", hint: "Un repère doux, pas un chiffre à tenir.",
+    label: "Nuit correcte", hint: "Une nuit correcte.",
     icon: "moon", space: "today"
   },
   {
@@ -114,9 +114,9 @@ export const ESSENTIALS = ANCHORS.filter((a) => a.essential);
 export const BONUSES = ANCHORS.filter((a) => !a.essential);
 
 export const GROUPS = [
-  { id: "matin",   label: "Matin",   sub: "On se pose en douceur." },
-  { id: "journee", label: "Journée", sub: "Les repères qui portent." },
-  { id: "soir",    label: "Soir",    sub: "On range la journée." }
+  { id: "matin",   label: "Matin",   sub: "Au réveil." },
+  { id: "journee", label: "Journée", sub: "Dans la journée." },
+  { id: "soir",    label: "Soir",    sub: "Avant la nuit." }
 ];
 
 /* Un repère est-il "fait" pour un jour donné ? */

@@ -164,7 +164,7 @@ function startSession(s, ctx) {
     // Franchissement doux de la durée suggérée (jamais imposé)
     if (!suggestedHit && elapsedMs >= s.ex.suggestedSecs * 1000) {
       suggestedHit = true;
-      toast("Belle session. Tu peux continuer ou t'arrêter, comme tu le sens.");
+      toast("Durée suggérée atteinte.");
       markBreathDone(ctx);
     }
   }, 250);
@@ -178,7 +178,7 @@ function pauseSession(s) {
   if (phaseTimer) { clearTimeout(phaseTimer); phaseTimer = null; }
   if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
   // Fige l'orbe à sa taille courante (laisse le transform en place)
-  s.subEl.textContent = "En pause — reprends quand tu veux.";
+  s.subEl.textContent = "En pause.";
 }
 
 function runPhase(s, ctx) {

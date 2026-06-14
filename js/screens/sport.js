@@ -33,7 +33,7 @@ export function render(ctx) {
   ]));
 
   root.append(el("h1", { class: "h-hero lead", text: "Bouger, en confiance." }));
-  root.append(el("p", { class: "muted", style: "margin:0 4px", text: "Pour l'énergie et le calme — jamais pour corriger quoi que ce soit." }));
+  root.append(el("p", { class: "muted", style: "margin:0 4px", text: "Pour l'énergie et le calme." }));
 
   /* ---------- 100 pompes ---------- */
   root.append(el("div", { class: "section-title", text: "100 pompes du jour" }));
@@ -46,10 +46,10 @@ export function render(ctx) {
   renderSession(sessionHost, ctx);
 
   /* ---------- Activité libre ---------- */
-  root.append(el("div", { class: "section-title", text: "Ça compte aussi" }));
+  root.append(el("div", { class: "section-title", text: "Marche & rando" }));
   root.append(buildActivity(ctx));
   root.append(el("div", { class: "move-note", text:
-    "Rythme indicatif : ~3 fois par semaine, sans pression. Sauter un jour ne casse rien — la rotation reprend où elle en était." }));
+    "~3 fois par semaine. La rotation reprend où elle s'est arrêtée." }));
 
   root._update = () => { renderSession(sessionHost, ctx); };
   return root;
@@ -78,7 +78,7 @@ function buildPushupHero(ctx) {
       const after = getDay(dayKey).counters?.pushups || 0;
       if (before < a.target && after >= a.target && !wasCelebrated(dayKey, "pushups")) {
         hero.classList.remove("burst"); void hero.offsetWidth; hero.classList.add("burst");
-        toast("100 pompes bouclées 🔥 Solide, vraiment.");
+        toast("100 pompes.");
         haptic([10, 30, 10, 30, 18]);
         markCelebrated(dayKey, "pushups");
       }
@@ -143,7 +143,7 @@ function renderSession(host, ctx) {
 
   /* CTA séance faite -> coche + avance la rotation (une fois/jour) */
   const cta = el("button", { class: "session-cta" + (done ? " is-done" : ""),
-    text: done ? "Séance faite ✓ — bien joué" : "J'ai fait ma séance" });
+    text: done ? "Séance faite ✓" : "J'ai fait ma séance" });
   cta.addEventListener("click", () => {
     const wasDone = !!getDay(dayKey).checks?.workout;
     toggleCheck(dayKey, "workout");
@@ -156,7 +156,7 @@ function renderSession(host, ctx) {
           st.sport.lastAdvanceDay = dayKey;
         }
       }, "sport:advance");
-      toast("Séance validée. La prochaine fois, on enchaîne la suivante.");
+      toast("Séance validée.");
     }
     renderSession(host, ctx);
     ctx.touch();
@@ -226,7 +226,7 @@ function buildActivity(ctx) {
       }, "activity");
       haptic(8);
       chip.classList.toggle("on");
-      toast("Ça compte — bouger, c'est bouger.");
+      toast("Enregistré.");
       ctx.touch();
     });
     row.append(chip);

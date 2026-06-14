@@ -1,0 +1,79 @@
+/* ============================================================
+   Historique & série — vue calendrier sobre.
+   ============================================================ */
+
+.history .lead { margin: 12px 4px 2px; }
+
+/* Bandeau série */
+.streak-card {
+  margin-top: 10px; padding: 22px 20px;
+  display: flex; align-items: center; gap: 20px;
+}
+.streak-figure { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.streak-num {
+  font-size: 52px; font-weight: 800; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--cactus);
+}
+.streak-card.zero .streak-num { color: var(--ink-soft); }
+.streak-unit { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.streak-meta { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.streak-line { font-size: 14px; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+.streak-line .k { color: var(--ink-faint); }
+.streak-line b { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink); }
+.joker-dots { display: inline-flex; gap: 5px; }
+.joker-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--glass-light); border: 1px solid var(--glass-border); }
+.joker-dots i.on { background: var(--plum); border-color: var(--plum); }
+
+/* Calendrier */
+.cal-card { margin-top: 8px; padding: 18px 18px 20px; }
+.cal-head { font-size: 12px; color: var(--ink-faint); font-weight: 700; margin-bottom: 12px; }
+.cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; margin-bottom: 7px; }
+.cal-dow span { text-align: center; font-size: 10px; font-weight: 700; color: var(--ink-faint); letter-spacing: 0.04em; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; }
+.cal-cell {
+  aspect-ratio: 1; border-radius: 8px;
+  background: rgba(255,250,242,0.05);
+  border: 1px solid transparent;
+  position: relative;
+  transition: background 240ms var(--ease-out);
+}
+.cal-cell.partial { background: color-mix(in srgb, var(--cactus) 26%, transparent); }
+.cal-cell.complete { background: var(--cactus); }
+.cal-cell.empty { background: rgba(255,250,242,0.05); }
+.cal-cell.future { background: rgba(255,250,242,0.02); }
+.cal-cell.joker { background: color-mix(in srgb, var(--plum) 40%, transparent); }
+.cal-cell.joker::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
+  transform: translate(-50%,-50%); border-radius: 50%; background: var(--sand); opacity: 0.85;
+}
+.cal-cell.today { border-color: var(--sunset-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--sunset-soft) 45%, transparent); }
+
+/* Légende */
+.cal-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; }
+.cal-legend span { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink-faint); }
+.cal-legend .swatch { width: 12px; height: 12px; border-radius: 4px; }
+.swatch.complete { background: var(--cactus); }
+.swatch.partial { background: color-mix(in srgb, var(--cactus) 26%, transparent); }
+.swatch.joker { background: color-mix(in srgb, var(--plum) 40%, transparent); position: relative; }
+.swatch.joker::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; transform: translate(-50%,-50%); border-radius: 50%; background: var(--sand); }
+
+.history-note { margin: 18px var(--pad) 0; font-size: 12.5px; color: var(--ink-faint); line-height: 1.5; text-align: center; }
+
+/* Entrée série sur l'écran Aujourd'hui (sobre) */
+.streak-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 12px var(--pad) 0; padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.streak-strip .s-left { display: flex; align-items: center; gap: 10px; }
+.streak-strip .s-val { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.streak-strip .s-val.zero { color: var(--ink-soft); }
+.streak-strip .s-lab { font-size: 13px; color: var(--ink-soft); }
+.streak-strip .s-go { font-size: 12.5px; color: var(--ink-faint); display: inline-flex; align-items: center; gap: 4px; }
+.streak-strip .s-go svg { width: 16px; height: 16px; }
+.streak-strip .s-dots { display: inline-flex; gap: 4px; margin-left: 2px; }
+.streak-strip .s-dots i { width: 16px; height: 4px; border-radius: 2px; background: var(--glass-light); }
+.streak-strip .s-dots i.on { background: var(--cactus); }

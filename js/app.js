@@ -19,6 +19,7 @@ import * as sport from "./screens/sport.js";
 import * as care from "./screens/care.js";
 import * as breathing from "./screens/breathing.js";
 import * as meds from "./screens/meds.js";
+import * as history from "./screens/history.js";
 
 function resolveCity() {
   const s = getState();
@@ -94,7 +95,8 @@ async function boot() {
     sport,
     care,
     breathing,
-    meds
+    meds,
+    history   // accessible depuis Aujourd'hui, hors barre de navigation
   });
 
   // Ciel dynamique (pièce héros) piloté par l'heure locale de la ville

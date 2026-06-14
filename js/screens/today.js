@@ -17,6 +17,8 @@ import {
 import { reassurance, prettyDate, openingNudges } from "../messages.js";
 import { describeWeather, weatherAge } from "../weather.js";
 import { dayPart, greeting, clockLabel } from "../time.js";
+import { getState } from "../store.js";
+import { computeHistory, jokersLeftThisWeek } from "../history.js";
 
 export function render(ctx) {
   const { city, local, dayKey } = ctx;
@@ -54,6 +56,10 @@ export function render(ctx) {
   /* ---------- Phrase qui rassure ---------- */
   const reassureEl = el("div", { class: "reassure" });
   root.append(reassureEl);
+
+  /* ---------- Série (entrée vers l'historique) ---------- */
+  const streakRef = buildStreakStrip(ctx);
+  root.append(streakRef.node);
 
   /* ---------- Relances douces à l'ouverture ---------- */
   const nudges = openingNudges({ city, dayState: getDay(dayKey), anchors: ANCHORS });
@@ -99,28 +105,29 @@ export function render(ctx) {
 
     updatePlane(scene, { essential, bonus });
 
-    // Texte d'ambiance (jamais un score)
+    // État de l'avion, factuel
     const txt = essential >= 1
-      ? (bonus >= 0.6 ? "En vol, altitude haute" : "Décollé — l'essentiel est fait")
-      : essential >= 0.5 ? "Ça prend de la vitesse"
-      : essential > 0.02 ? "Roulage en douceur"
-      : "Prêt au départ";
+      ? (bonus >= 0.6 ? "En vol" : "Décollé")
+      : essential >= 0.5 ? "En accélération"
+      : essential > 0.02 ? "Roulage"
+      : "Au départ";
     status.querySelector(".status-text").textContent = txt;
 
     reassureEl.innerHTML = reassurance({ essential, bonus, part });
 
-    // Célébration de décollage (une seule fois par jour)
+    // Décollage — marqueur ponctuel (une fois par jour)
     const airborne = essential >= 1;
     if (airborne && !prevAirborne && !wasCelebrated(dayKey, "takeoff")) {
       celebrateTakeoff(scene);
-      toast("Décollage ✈️ Tu as fait l'essentiel, c'est très bien.");
+      toast("L'essentiel est fait.");
       haptic([12, 40, 18]);
       markCelebrated(dayKey, "takeoff");
     }
     prevAirborne = airborne;
 
-    // Maj des ancres
+    // Maj des ancres + série
     anchorRefs.forEach((r) => r.update());
+    streakRef.update();
   }
 
   // Premier rendu (légère temporisation pour laisser l'anim partir de 0)
@@ -191,6 +198,25 @@ function buildVisionCard(ctx) {
   return card;
 }
 
+/* ---------- Bandeau série -> historique ---------- */
+function buildStreakStrip(ctx) {
+  const node = el("button", { class: "streak-strip", onClick: () => ctx.navigate("history") });
+  const valEl = el("span", { class: "s-val" });
+  const labEl = el("span", { class: "s-lab" });
+  node.append(
+    el("div", { class: "s-left" }, [valEl, labEl]),
+    el("span", { class: "s-go" }, ["Historique", el("span", { html: icon("chevron") })])
+  );
+  function update() {
+    const { current } = computeHistory(getState().days, ctx.dayKey);
+    valEl.textContent = String(current);
+    valEl.classList.toggle("zero", current === 0);
+    labEl.textContent = current === 1 ? "jour d'affilée" : "jours d'affilée";
+  }
+  update();
+  return { node, update };
+}
+
 /* ---------- Une ancre (check ou compteur) ---------- */
 function buildAnchor(a, ctx) {
   const { dayKey } = ctx;
@@ -253,12 +279,6 @@ function buildAnchor(a, ctx) {
     });
   }
 
-  if (!a.essential) {
-    body.querySelector(".anchor-label").append(
-      el("span", { class: "anchor-tag", text: "  bonus" })
-    );
-  }
-
   function update() {
     const dayState = getDay(dayKey);
     const done = isAnchorDone(a, dayState);
@@ -280,12 +300,12 @@ function celebrateCounter(a, before, ctx) {
   const after = getDay(ctx.dayKey).counters?.[a.id] || 0;
   if (before < a.target && after >= a.target) {
     if (a.id === "pushups" && !wasCelebrated(ctx.dayKey, "pushups")) {
-      toast("100 pompes bouclées 🔥 Solide, vraiment.");
+      toast("100 pompes.");
       haptic([10, 30, 10, 30, 16]);
       markCelebrated(ctx.dayKey, "pushups");
     }
     if (a.id === "water" && !wasCelebrated(ctx.dayKey, "water")) {
-      toast("Gourde au complet 💧 Bien joué.");
+      toast("2 litres.");
       haptic([10, 30, 16]);
       markCelebrated(ctx.dayKey, "water");
     }

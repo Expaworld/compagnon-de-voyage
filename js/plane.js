@@ -3,9 +3,9 @@
 
    La complétion de l'essentiel fait accélérer l'avion sur la
    piste ; quand TOUT l'essentiel est fait, il décolle. Les
-   extras font gagner de l'altitude (bonus), sans pression.
+   extras font gagner de l'altitude.
 
-   Aucun chiffre n'est montré ici : juste l'avion qui avance,
+   Aucun chiffre n'est montré ici : l'avion avance,
    les lignes de vitesse, puis la montée.
    ============================================================ */
 
@@ -101,7 +101,7 @@ export function updatePlane(scene, { essential, bonus }) {
     speed.style.setProperty("--speed", (0.3 + e * 1.4).toFixed(2));
     scene.style.setProperty("--altitude", "0px");
   } else {
-    // En vol : position d'envol + altitude bonus (sans pression).
+    // En vol : position d'envol + altitude selon les extras.
     const lift = 64 + bonus * 96;     // px de montée
     const climb = 10 + bonus * 6;     // angle de montée
     wrap.style.transform = `translateX(64%) translateY(${-lift}px) rotate(${-climb}deg)`;

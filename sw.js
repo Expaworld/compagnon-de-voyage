@@ -5,7 +5,7 @@
    dernière valeur est gardée côté app dans le localStorage).
    ============================================================ */
 
-const VERSION = "cdv-v7";
+const VERSION = "cdv-v8";
 const SHELL = [
   "./",
   "./index.html",
@@ -22,6 +22,7 @@ const SHELL = [
   "./css/care.css",
   "./css/breathing.css",
   "./css/medhub.css",
+  "./css/history.css",
 
   "./js/app.js",
   "./js/router.js",
@@ -34,6 +35,7 @@ const SHELL = [
   "./js/messages.js",
   "./js/weather.js",
   "./js/figure.js",
+  "./js/history.js",
   "./js/data/cities.js",
   "./js/data/anchors.js",
   "./js/data/meals.js",
@@ -46,6 +48,7 @@ const SHELL = [
   "./js/screens/care.js",
   "./js/screens/breathing.js",
   "./js/screens/meds.js",
+  "./js/screens/history.js",
   "./js/screens/placeholder.js",
 
   "./assets/icons/icon.svg",

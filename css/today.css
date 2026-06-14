@@ -99,7 +99,7 @@
   to   { transform: translateX(-220%); opacity: 0; }
 }
 
-/* Nuages de bonus (altitude) */
+/* Nuages d'altitude (extras) */
 .plane-sky-bonus { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .bonus-cloud {
   position: absolute;

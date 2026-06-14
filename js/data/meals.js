@@ -51,9 +51,9 @@ export const MEAL_IDEAS = [
 
 /* État de relance d'un repas selon l'heure locale et la coche. */
 export function mealStatus(slot, done, hourFloat) {
-  if (done) return { kind: "done", text: "Fait — très bien." };
+  if (done) return { kind: "done", text: "Fait." };
   const [a, b] = slot.due;
-  if (hourFloat >= a && hourFloat < b) return { kind: "due", text: "C'est le moment, si tu peux." };
-  if (hourFloat >= b) return { kind: "later", text: "Pas encore ? Quand tu veux, sans pression." };
-  return { kind: "soon", text: "Un peu plus tard dans la journée." };
+  if (hourFloat >= a && hourFloat < b) return { kind: "due", text: "C'est l'heure." };
+  if (hourFloat >= b) return { kind: "later", text: "Plus tard." };
+  return { kind: "soon", text: "Plus tard dans la journée." };
 }

@@ -64,7 +64,7 @@ export function render(ctx) {
   ]));
 
   root.append(el("h1", { class: "h-hero", style: "margin:14px 4px 2px", text: "As-tu mangé ?" }));
-  root.append(el("p", { class: "muted", style: "margin:0 4px 4px", text: "Pas « quoi manger ». Juste de quoi tenir l'énergie, sans y penser trop." }));
+  root.append(el("p", { class: "muted", style: "margin:0 4px 4px", text: "Pas « quoi manger ». De quoi tenir l'énergie." }));
 
   /* ---------- Eau : la gourde ---------- */
   root.append(el("div", { class: "section-title", text: "Hydratation" }));
@@ -99,8 +99,8 @@ export function render(ctx) {
     const liters = (v * GLASS_L).toFixed(2).replace(".", ",").replace(",00", "").replace(/,(\d)0$/, ",$1");
     litersEl.textContent = `≈ ${liters} L`;
     waterSub.textContent = v >= waterAnchor.target
-      ? "Plein — objectif 2 L atteint, bien joué."
-      : "Objectif tout doux : 2 L sur la journée.";
+      ? "2 L atteints."
+      : "Objectif : 2 L sur la journée.";
     waterCard.classList.toggle("is-full", v >= waterAnchor.target);
   }
 
@@ -110,7 +110,7 @@ export function render(ctx) {
     haptic(8);
     const after = getDay(dayKey).counters?.water || 0;
     if (before < waterAnchor.target && after >= waterAnchor.target && !wasCelebrated(dayKey, "water")) {
-      toast("Gourde au complet 💧 Bien joué.");
+      toast("2 litres.");
       haptic([10, 30, 16]);
       markCelebrated(dayKey, "water");
     }
@@ -138,7 +138,7 @@ export function render(ctx) {
   /* ---------- Filet de sécurité : idées simples ---------- */
   const ideasWrap = el("div", { class: "ideas" });
   const ideasToggle = el("button", { class: "ideas-toggle" }, [
-    el("span", { text: "Pas d'idée ? Trois repas tout simples" }),
+    el("span", { text: "Pas d'idée ? Trois repas simples" }),
     el("span", { class: "chev", html: icon("chevron") })
   ]);
   const ideasBody = el("div", { class: "ideas-body" });

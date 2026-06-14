@@ -115,7 +115,7 @@ function buildRoutine(r, ctx) {
     node.classList.toggle("is-complete", all);
     state.textContent = all ? "Routine complète ✓"
       : doneCount > 0 ? `${doneCount}/${stepRefs.length} fait`
-      : "À faire quand tu peux";
+      : "À faire";
   }
   update();
   return { node, update };
@@ -128,7 +128,7 @@ function buildTeeth(ctx) {
 
   node.append(el("div", { class: "teeth-head" }, [
     el("h2", { text: "🪥 Brossage des dents" }),
-    el("div", { class: "goal", text: "Objectif 3×, sans te presser" })
+    el("div", { class: "goal", text: "Objectif 3×" })
   ]));
 
   const pips = el("div", { class: "teeth-pips" });
@@ -152,7 +152,7 @@ function buildTeeth(ctx) {
       haptic(8);
       const after = getDay(dayKey).counters?.teeth || 0;
       if (before < a.target && after >= a.target && !wasCelebrated(dayKey, "teeth")) {
-        toast("Trois brossages — sourire au top ✨");
+        toast("Trois brossages.");
         markCelebrated(dayKey, "teeth");
       }
       update();
